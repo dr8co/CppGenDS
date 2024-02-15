@@ -21,12 +21,18 @@ jobs:
           - os: macos-latest
             c_compiler: clang
             cpp_compiler: clang++
+            env:
+              - LDFLAGS="-L/usr/local/opt/llvm/lib -Wl,-rpath,/usr/local/opt/llvm/lib"
+              - CPPFLAGS="-I/usr/local/opt/llvm/include"
+              - LD_LIBRARY_PATH="/usr/local/opt/llvm/lib"
+              - DYLD_LIBRARY_PATH="/usr/local/opt/llvm/lib"
+              
           - os: ubuntu-latest
             c_compiler: gcc
             cpp_compiler: g++
           - os: ubuntu-latest
             c_compiler: clang
-            cpp_compiler: clang++
+            cpp_compiler: clang++17
         exclude:
           - os: macos-latest
             c_compiler: gcc
@@ -43,7 +49,7 @@ jobs:
       if: matrix.os == 'ubuntu-latest'
       run: |
           sudo apt update
-          sudo apt install -y build-essential cmake ninja-build clang libgtest-dev googletest
+          sudo apt install -y build-essential cmake ninja-build clang17 libgtest-dev googletest
       
     - uses: actions/checkout@v4
 
@@ -61,6 +67,7 @@ jobs:
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -S ${{ github.workspace }}
+        -G Ninja
 
     - name: Build
       run: cmake --build ${{ steps.strings.outputs.build-output-dir }} --config ${{ matrix.build_type }}
