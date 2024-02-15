@@ -18,22 +18,25 @@ namespace ods {
         Array(int len, T init);
 
         /// Fill the array with a value
-        void fill(T x);
+        constexpr void fill(T x) noexcept;
 
         /// Destructor
         virtual ~Array();
+
+        /// Copy constructor
+        Array(const Array<T> &other);
 
         /// Assignment operator
         Array<T> &operator=(const Array<T> &b);
 
         /// Subscript operator
-        T &operator[](int i);
+        constexpr T &operator[](int i);
 
         /// Pointer arithmetic
-        T *operator+(int i);
+        constexpr T *operator+(int i);
 
         /// Swap two elements
-        void swap(int i, int j);
+        constexpr void swap(int i, int j);
 
         /// Copy a range of elements from \p a to \p a0
         static void copyRange(Array<T> &a, Array<T> &a0, int i, int j);
@@ -45,6 +48,11 @@ namespace ods {
         virtual void reverse();
 
     };
+
+    template<class T>
+    Array<T>::Array(const Array<T> &other) : a(new T[other.length]), length(other.length) {
+        std::copy(other.a, other.a + length, a);
+    }
 
     template<class T>
     Array<T>::Array(int len) {
@@ -60,7 +68,7 @@ namespace ods {
     }
 
     template<class T>
-    void Array<T>::fill(T x) {
+    constexpr void Array<T>::fill(T x) noexcept {
         std::fill(a, a + length, x);
     }
 
@@ -111,17 +119,19 @@ namespace ods {
     }
 
     template<class T>
-    void Array<T>::swap(int i, int j) {
-        std::swap(a[i], a[j]);
+    constexpr void Array<T>::swap(int i, int j) {
+        if (i >= 0 && i < length && j >= 0 && j < length)
+            std::swap(a[i], a[j]);
+        else throw std::out_of_range("Index out of range");
     }
 
     template<class T>
-    T *Array<T>::operator+(int i) {
+    constexpr T *Array<T>::operator+(int i) {
         return &a[i];
     }
 
     template<class T>
-    T &Array<T>::operator[](int i) {
+    constexpr T &Array<T>::operator[](int i) {
         if (i >= 0 && i < length)
             return a[i];
         else
