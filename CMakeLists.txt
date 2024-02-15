@@ -2,7 +2,11 @@ cmake_minimum_required(VERSION 3.27)
 project(CppGenDS)
 
 set(CMAKE_CXX_STANDARD 23)
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wpedantic")
+
+# Check for extra errors if using Clang or GCC
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror -Wpedantic")
+endif()
 
 include(FetchContent)
 FetchContent_Declare(
