@@ -2,7 +2,7 @@
 #include "../../0x01-ArrayStack/ArrayStack.hpp"
 
 TEST(ArrayStackTest, ConstructorCreatesEmptyStack) {
-    ods::ArrayStack<int> stack;
+    constexpr ods::ArrayStack<int> stack;
     EXPECT_EQ(stack.size(), 0);
 }
 

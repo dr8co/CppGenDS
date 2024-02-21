@@ -7,7 +7,7 @@ constexpr unsigned RA = 0x01; // Random access
 constexpr unsigned FM = 0x02; // Front modifications
 
 template<class List>
-void ListTests(List &ell, int n, unsigned flags) {
+void ListTests(List &ell, const int n, const unsigned flags) {
     std::cout.setf(std::ios::fixed, std::ios::floatfield);
     std::cout.precision(5);
 
@@ -104,7 +104,7 @@ void ListTests(List &ell, int n, unsigned flags) {
 }
 
 int main() {
-    int n = 1000;
+    constexpr int n = 1000;
     ods::ArrayStack<int> as;
     ListTests(as, n, RA | FM);
     return 0;

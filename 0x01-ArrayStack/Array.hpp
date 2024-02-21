@@ -8,6 +8,7 @@ namespace ods {
     class Array {
     protected:
         T *a{nullptr};
+
     public:
         int length{};
 
@@ -24,10 +25,10 @@ namespace ods {
         virtual ~Array();
 
         /// Copy constructor
-        Array(const Array<T> &other);
+        Array(const Array &other);
 
         /// Assignment operator
-        Array<T> &operator=(const Array<T> &b);
+        Array &operator=(const Array &b);
 
         /// Subscript operator
         constexpr T &operator[](int i);
@@ -39,29 +40,28 @@ namespace ods {
         constexpr void swap(int i, int j);
 
         /// Copy a range of elements from \p a to \p a0
-        static void copyRange(Array<T> &a, Array<T> &a0, int i, int j);
+        static void copyRange(Array &a, Array &a0, int i, int j);
 
         /// Resize the array
         void resize(int newLength);
 
         /// Reverse the array
         virtual void reverse();
-
     };
 
     template<class T>
-    Array<T>::Array(const Array<T> &other) : a(new T[other.length]), length(other.length) {
+    Array<T>::Array(const Array &other) : a(new T[other.length]), length(other.length) {
         std::copy(other.a, other.a + length, a);
     }
 
     template<class T>
-    Array<T>::Array(int len) {
+    Array<T>::Array(const int len) {
         length = len;
         a = new T[length];
     }
 
     template<class T>
-    Array<T>::Array(int len, T init) {
+    Array<T>::Array(const int len, T init) {
         length = len;
         a = new T[length];
         fill(init);
@@ -78,7 +78,7 @@ namespace ods {
     }
 
     template<class T>
-    Array<T> &Array<T>::operator=(const Array<T> &b) {
+    Array<T> &Array<T>::operator=(const Array &b) {
         if (this != &b) {
             if (length != b.length) {
                 delete[] a;
@@ -98,7 +98,7 @@ namespace ods {
     }
 
     template<class T>
-    void Array<T>::resize(int newLength) {
+    void Array<T>::resize(const int newLength) {
         if (newLength == length) return;
 
         T *b = new T[newLength];
@@ -110,9 +110,8 @@ namespace ods {
     }
 
     template<class T>
-    void Array<T>::copyRange(Array<T> &a, Array<T> &a0, int i, int j) {
-        int rangeSize = j - i;
-        if (rangeSize > 0 && i >= 0 && j <= a.length) {
+    void Array<T>::copyRange(Array &a, Array &a0, int i, int j) {
+        if (const int rangeSize = j - i; rangeSize > 0 && i >= 0 && j <= a.length) {
             a0.resize(rangeSize);
             std::copy(a.a + i, a.a + j, a0.a);
         }
@@ -134,9 +133,6 @@ namespace ods {
     constexpr T &Array<T>::operator[](int i) {
         if (i >= 0 && i < length)
             return a[i];
-        else
-            throw std::out_of_range("Index out of range");
+        throw std::out_of_range("Index out of range");
     }
-
 } // ods
-

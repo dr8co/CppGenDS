@@ -24,7 +24,7 @@ namespace ods {
         virtual ~ArrayStack() = default;
 
         /// Returns the number of elements in the stack
-        int size();
+        [[nodiscard]] int size() const;
 
         /// Returns the element at index i in the stack
         T get(int i);
@@ -46,7 +46,7 @@ namespace ods {
     };
 
     template<class T>
-    ArrayStack<T>::ArrayStack() : a(1), n(0) {}
+    ArrayStack<T>::ArrayStack() : a(1) {}
 
     template<class T>
     void ArrayStack<T>::resize() {
@@ -58,7 +58,7 @@ namespace ods {
     }
 
     template<class T>
-    int ArrayStack<T>::size() {
+    int ArrayStack<T>::size() const {
         return n;
     }
 
