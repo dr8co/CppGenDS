@@ -2,7 +2,7 @@
 #include "../../0x01-ArrayStack/Array.hpp"
 
 TEST(ArrayTest, ConstructorCreatesEmptyArray) {
-    constexpr ods::Array<int> array(0);
+    const ods::Array<int> array(0);
     EXPECT_EQ(array.length, 0);
 }
 
@@ -22,7 +22,7 @@ TEST(ArrayTest, FillChangesAllElements) {
 }
 
 TEST(ArrayTest, AssignmentCopiesAllElements) {
-    constexpr ods::Array<int> array1(5, 1);
+    const ods::Array<int> array1(5, 1);
     ods::Array<int> array2 = array1;
     for (int i = 0; i < 5; ++i) {
         EXPECT_EQ(array2[i], 1);
