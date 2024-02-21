@@ -46,14 +46,13 @@ namespace ods {
     };
 
     template<class T>
-    ArrayStack<T>::ArrayStack() : a(1) {}
+    ArrayStack<T>::ArrayStack() : a(1) {
+    }
 
     template<class T>
     void ArrayStack<T>::resize() {
         Array<T> b(std::max(2 * n, 1));
-        for (int i = 0; i < n; ++i) {
-            b[i] = a[i];
-        }
+        std::copy(a + 0, a + n, b + 0);
         a = b;
     }
 
@@ -77,9 +76,7 @@ namespace ods {
     template<class T>
     void ArrayStack<T>::add(int i, T x) {
         if (n + 1 > a.length) resize();
-        for (int j = n; j > i; --j) {
-            a[j] = a[j - 1];
-        }
+        std::copy_backward(a + i, a + n, a + i + 1);
         a[i] = x;
         ++n;
     }
