@@ -54,6 +54,11 @@ TEST(ArrayStackTest, ClearResetsStackSizeToZero) {
     EXPECT_EQ(stack.size(), 0);
 }
 
+TEST(ArrayStackTest, AddAtIndexThrowsExceptionWhenIndexIsOutOfRange) {
+    ods::ArrayStack<int> stack;
+    EXPECT_THROW(stack.add(1, 1), std::out_of_range);
+}
+
 TEST(ArrayStackTest, RemoveThrowsExceptionWhenIndexIsOutOfRange) {
     ods::ArrayStack<int> stack;
     EXPECT_THROW(stack.remove(1), std::out_of_range);
